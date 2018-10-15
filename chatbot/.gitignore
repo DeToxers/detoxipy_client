@@ -4,6 +4,9 @@ conf/*
 # Junk
 .DS_Store
 
+# Node Modules
+node_modules
+
 # Logs
 logs
 *.log
@@ -62,6 +65,8 @@ typings/
 
 # dotenv environment variables file
 .env
+.ENV
+ENV
 
 # Finalized files
 dist/
