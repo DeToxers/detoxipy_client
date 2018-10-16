@@ -18,8 +18,9 @@ var data = {
      }
     ]
   }
- 
- var diameter = 960,
+ console.log()
+
+ var diameter = 318,
      format = d3.format(",d"),
      color = d3.scaleOrdinal(d3.schemeCategory20);
  

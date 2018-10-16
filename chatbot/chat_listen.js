@@ -2,6 +2,7 @@ const tmi = require('tmi.js')
 const oauth = process.env.OAUTH
 
 
+
 console.log(oauth)
 
 
@@ -11,7 +12,7 @@ let opts = {
     password: 'oauth:' + oauth
   },
   channels: [
-    'tfue'
+    'timthetatman'
   ]
 }
 // Create a client with our options:
