@@ -19,8 +19,8 @@ var data = {
      }
     ]
   }
- 
- var diameter = 400,
+
+ var diameter = 318,
      format = d3.format(",d"),
      color = d3.scaleOrdinal(d3.schemeCategory10);
  
