@@ -8,10 +8,11 @@ var data = {
        {
         "name": "cluster",
         "children": [
-         {"name": "Hi!", "size": 33},
+         {"name": "Hi!", "size": 323},
          {"name": "Nooooo", "size": 3812},
          {"name": "Wat", "size": 6714},
-         {"name": "^_^", "size": 743}
+         {"name": "^_^", "size": 743},
+         {"name": "hejfh", "size": 289}
         ]
         }
        ]
@@ -19,9 +20,9 @@ var data = {
     ]
   }
  
- var diameter = 960,
+ var diameter = 400,
      format = d3.format(",d"),
-     color = d3.scaleOrdinal(d3.schemeCategory20);
+     color = d3.scaleOrdinal(d3.schemeCategory10);
  
  var bubble = d3.pack()
      .size([diameter, diameter])
@@ -63,7 +64,7 @@ var data = {
    var classes = [];
  
    function recurse(name, node) {
-     if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+     if (node.children) node.children.forEach(function(node) { recurse(node.name, node); });
      else classes.push({packageName: name, className: node.name, value: node.size});
    }
  
@@ -85,4 +86,3 @@ var data = {
      .transition()
      .duration(300);
  };
- 
