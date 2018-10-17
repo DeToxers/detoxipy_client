@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 python-twitch-client = "*"
 irc = "*"
+pandas = "*"
+datetime = "*"
 
 [dev-packages]
 
