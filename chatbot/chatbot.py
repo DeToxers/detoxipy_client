@@ -10,6 +10,7 @@ import time
 import json
 
 
+
 class TwitchBot(irc.bot.SingleServerIRCBot):
     def __init__(self, username, client_id, token, channel):
         self.client_id = client_id
@@ -31,7 +32,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         'Connecting to ' + server + ' on port ' + str(port) + '...'
         irc.bot.SingleServerIRCBot.__init__(
             self, [(server, port, 'oauth:' + token)], username, username)
-        self.run_api_loop()
+        
 
         
 
