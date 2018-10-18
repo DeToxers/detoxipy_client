@@ -7,7 +7,7 @@ const superagent = require('superagent')
 console.log(oauth)
 
 let messages = []
-let room_id = ''
+let stream_id = ''
 
 let opts = {
   identity: {
@@ -31,8 +31,8 @@ client.connect()
 
 // Called every time a message comes in:
 async function onMessageHandler (target, context, msg, self) {
-  if (room_id != context.room_id){
-    room_id = context.room_id
+  if (stream_id != context.room_id){
+    stream_id = context.room_id
   }
   // This isn't a command since it has no prefix:
   if (msg.substr(0, 1)) {
@@ -44,28 +44,31 @@ async function onMessageHandler (target, context, msg, self) {
 
 async function runApiLoop(){
   if (messages !== []) {
-    console.log(messages)
-  }
-  
-  messages = []
-  setTimeout(() => {
+    // console.log(messages)
+    // Does the following post to API route?
+    await superagent.post('http://twitchbubblechat.com/api/v1/chat')
+      .send(JSON.stringify({
+        vals: messages,
+        room_id: stream_id
+      }))
+      .then(data => {
+        messages = []
+        setTimeout(() => {
           runApiLoop()
         }, 1000);
-  // await superagent.post('http://twitchbubblechat.com/api/v1/chat')
-  //   .send(JSON.stringify({
-  //     content: messages,
-  //     session_id: room_id
-  //   }))
-  //   .then(data => {
-  //     messages = {}
-  //     setTimeout(() => {
-  //       runApiLoop()
-  //     }, 1000);
-  //   })
-  //   .catch(err => {
-  //     console.error("Unable to reach api endpoint", err)
-  //   })
-}
+      })
+      .catch(err => {
+        console.error("Unable to reach api endpoint", err)
+      })
+  }
+  console.log('Posted ')
+  // messages = []
+  // setTimeout(() => {
+  //         runApiLoop()
+  //       }, 1000);
+  //  ------------------------------
+
+} // end runApiLoop
 
 function onConnectedHandler (addr, port) {
   console.log(`* Connected to ${addr}:${port}`)
