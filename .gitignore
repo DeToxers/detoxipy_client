@@ -1,5 +1,7 @@
 # Configuration
 conf/*
+Pipfile.lock
+Pipfile
 
 # Junk
 .DS_Store
