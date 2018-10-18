@@ -1,3 +1,5 @@
+var bubbles = []
+
 // Sample Data
 var data = {
     "name": "flare",
@@ -7,13 +9,7 @@ var data = {
       "children": [
        {
         "name": "cluster",
-        "children": [
-         {"name": "Hi!", "size": 323},
-         {"name": "Nooooo", "size": 3812},
-         {"name": "Wat", "size": 6714},
-         {"name": "^_^", "size": 743},
-         {"name": "hejfh", "size": 289}
-        ]
+        "children": bubbles
         }
        ]
      }
@@ -86,3 +82,13 @@ var data = {
      .transition()
      .duration(300);
  };
+
+function runApiLoop(){
+    await superagent.get('localhost:8000/api/v1/bubble')
+    .then(data => {
+      data = JSON.parse(data)
+      bubbles = data
+    })
+    setTimeout(() => {
+            runApiLoop()
+          }, 1000)};
