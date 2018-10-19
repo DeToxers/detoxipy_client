@@ -139,6 +139,7 @@ function onDisconnectedHandler (reason) {
 setInterval(process_data, 1000);4
 
 app.get('/bubbles', (req, res) => {
+  console.log(req)
   json_messages = JSON.stringify(topBubbles)
   res.setHeader('Content-Type', 'application/json');
   res.send(json_messages);
