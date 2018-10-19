@@ -1,10 +1,6 @@
-# Detoxipy Server
-The server-side of a Twitch extension that allows users to visualize trending keywords in a Twitch chat using bubbles that grow and shrink depending on popularity.
+# Detoxipy Client
+The client side of our Twitch bubble chat application. Contains the chatbot and D3 visualizatin.
 ___
-
-**AWS** []()
-
-**AWS** []()
 
 **GitHub(Client)**
 
@@ -27,16 +23,15 @@ ___
 * [Contribute](#contrib)
 * [Participants](#participants)
 * [Sources](#sources)
+* [Special Thanks](#thanks)
 ___
 <a id="tools"></a>
 ## Tools
 - Python3
 - Javascript ES6
 - Django 2.1.1
-- Twitch Dev Rig
-- Twitch Chat Bot
+- Twich Message Interface
 - D3
-- Kubernetes
 
 ___
 <a id="overview"></a>
@@ -46,46 +41,7 @@ ___
 ___
 ## Getting started
 <a id="start"></a>
-- Clone the repository and ensure you have Docker and Docker Compose installed. Run "docker-compose up --build" from your command line and then go to localhost in your browser.
-___
-
-## Routes
-
-<a id="routes"></a>
-
-**GET:**  `api/v1/bubble`
-
-- **Usage:**
-
-    Gets data for the data visualization for the current session.
-
-- **Output:**
-```
-Code Block
-```
-
-**POST:**  `api/v1/chat`
-
-- **Usage:**
-
-    Post route for list view and detail view of the messages.
-
-- **Output:**
-```
-Code Block
-```
-___
-## Models
-<a id="models"></a>
-
-- **Session**
-
-    Holds the data for the current stream session. This table's contents are deleted at the end of each session. It is used to calculate the most common words per time period/
-
-- **Main**
-
-    Holds the historical data for the streamer. At the end of each session, the top 5 words for that session are added to this table. This table is used for data visualization of chat trends over time.
-
+- Clone the repository and run the chatbot.
 ___
 <a id="contrib"></a>
 ## Contributing to our project
@@ -104,3 +60,11 @@ ___
 - Twitch Documentation
 - D3 Documentation
 ___
+<a id="thanks"></a>
+## Special Thanks
+- Michael Sklepowich
+- JJ Feore
+- Shannon Tully
+- Brian Nations
+- James Salamonsen
+- Benjamin Hurst
