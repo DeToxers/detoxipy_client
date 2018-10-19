@@ -64,6 +64,7 @@ async function process_data() {
   stream_count += 1;
   topBubbles = [['placeholder', 1], ['alsoplaceholder', 0]];  // will be a list of {word: weight}
   maxTopBubbles = 5;
+  console.log(data)
   
   // Step 0: Add all new words from currsec
   for (let word in currsec) {
@@ -118,6 +119,11 @@ async function process_data() {
   }
   // Step 3: Call our Render function with our topBubbles (using D3 to live update the chat bubbles)
   render_bubbles(topBubbles)
+  for (let i = 0; i < Object.keys(data); i++) {
+    if (data[Object.keys(data)[i]].weight <= 0 ) {
+      delete data[Object.keys(data)[i]]
+    }
+  }
   // render_bubbles({'room_id': stream_id, 'vals': topBubbles});
 }  // end process_data
 
