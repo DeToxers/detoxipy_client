@@ -70,7 +70,7 @@ async function process_data() {
     if (!data[word] && !ignore_words.includes(word)) {
       data[word] = {};
       data[word].weight = 0;
-      data[word].queue = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      data[word].queue = [1,1,1,1,1,1];
     }
   }
   // Step 1: Update our running data object that tracks decay and growth
@@ -142,7 +142,6 @@ function onDisconnectedHandler (reason) {
 setInterval(process_data, 1000);4
 
 app.get('/bubbles', (req, res) => {
-  console.log(req)
   json_messages = JSON.stringify(topBubbles)
   res.setHeader('Content-Type', 'application/json');
   res.send(json_messages);
