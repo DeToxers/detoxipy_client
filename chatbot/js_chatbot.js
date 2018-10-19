@@ -1,6 +1,8 @@
+import { render_bubbles } from './bubble.js';
 const tmi = require('tmi.js')
 const oauth = process.env.OAUTH
 const superagent = require('superagent')
+
 
 
 console.log(oauth)
@@ -65,6 +67,8 @@ async function process_data() {
   // 3) call the render function (which uses D3 to make the live chat bubbles)
   // End Docstring  
 
+  d_three_return = []
+
   // Step 1: Update our running data object that tracks decay and growth
   for (let word in currsec) {
     if (!ignore_words.includes(word) && data[word] == undefined) {
@@ -79,14 +83,14 @@ async function process_data() {
   }
   for (let word in data){
     var new_val = 0
-    console.log(data[word])
-    if (currsec[word] !== undefined){
+    if (currsec[word] != undefined){
       new_val = currsec[word]
+      
     }
     data[word].queue.unshift(new_val)
     data[word].total += new_val
     data[word].total -= data[word].queue.pop()
-
+    
     let lowest = 0
     for (let i=0; i < top_five.length; i++){
       if (top_five[i][1] < top_five[lowest][1]){
@@ -97,38 +101,47 @@ async function process_data() {
       top_five[lowest] = [data[word].word, data[word].total]
     }
   }
+  
+  for (word_arr in top_five){
+    formatted_top_five = {'name': top_five[word_arr][0], 'size': top_five[word_arr][1]}
+    d_three_return.push(formatted_top_five)
+  }
 
-
-      // skip if this word is in our ignore_words
+  
+  
+  // console.log(top_five)
+  
+  // skip if this word is in our ignore_words
   //     if (data[word] !== undefined) {
-  //       data[word].weight += currsec[word];
-  //       data[word].queue.unshift(currsec[word]);
-  //       data[word].weight -= data[word].queue.pop();
-  //       console.log(data[word].queue)
-  //     } else {
-  //       data[word] = {};
-  //       data[word].weight = currsec[word];
-  //       data[word].queue = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-  //       // data[word].queue.apply(null, Array(29)).map(Number.prototype.valueOf,0);
-  //       data[word].queue.unshift(currsec[word]);
-  //     }
-  //   }  // only processed words not in our ignore_words list
-  // }  // end for loop
-
-  // Step 2: POST request to the backend the cummulative total for long-term visualization
-  if (currsec !== {}) {
-    data_package = JSON.stringify({'vals': currsec, 'room_id': stream_id})
-    // console.log(data_package)
-    // console.log(data_package)
-    // Does the following post to API route?
-    // await superagent.post(server)
-    // .send(data_package)
+    //       data[word].weight += currsec[word];
+    //       data[word].queue.unshift(currsec[word]);
+    //       data[word].weight -= data[word].queue.pop();
+    //       console.log(data[word].queue)
+    //     } else {
+      //       data[word] = {};
+      //       data[word].weight = currsec[word];
+      //       data[word].queue = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      //       // data[word].queue.apply(null, Array(29)).map(Number.prototype.valueOf,0);
+      //       data[word].queue.unshift(currsec[word]);
+      //     }
+      //   }  // only processed words not in our ignore_words list
+      // }  // end for loop
+      
+      // Step 2: POST request to the backend the cummulative total for long-term visualization
+      if (currsec !== {}) {
+        data_package = JSON.stringify({'vals': currsec, 'room_id': stream_id})
+        // console.log(data_package)
+        // console.log(data_package)
+        // Does the following post to API route?
+        // await superagent.post(server)
+        // .send(data_package)
     // .then(data => {
     //   currsec = {}
     // })
     // .catch(err => {
     //   console.error("Unable to reach api endpoint", err)
     // });
+    currsec = {}
   }
 
   // Step 3: Call our Render function (using D3 to live update the chat bubbles)
