@@ -1,6 +1,9 @@
 const tmi = require('tmi.js')
 const oauth = process.env.OAUTH
 const superagent = require('superagent')
+const express = require('express');
+const app = express();
+const PORT = 3000; 
 
 console.log(oauth)
 let stream_id = 'tonkaaaap';  // 'xqcow' 
@@ -132,4 +135,12 @@ function onDisconnectedHandler (reason) {
 }  // end onDisconnectedHandler
 
 // The following starts the batch processing of our chat bubbles and data storage
-setInterval(process_data, 1000);
+setInterval(process_data, 1000);4
+
+app.get('/bubbles', (req, res) => {
+  json_messages = JSON.stringify(data)
+  res.setHeader('Content-Type', 'application/json');
+  res.send(json_messages);
+})
+
+app.listen(PORT, () => console.log('server started on port ${PORT}'));
