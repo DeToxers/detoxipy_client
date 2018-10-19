@@ -1,12 +1,15 @@
 const tmi = require('tmi.js')
 const oauth = process.env.OAUTH
-const superagent = require('superagent')
+const superagent = require('superagent');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = 3000; 
 
+app.use(cors());
+
 console.log(oauth)
-let stream_id = 'tonkaaaap';  // 'xqcow' 
+let stream_id = 'scump';  // 'xqcow' 
 // Options needed for setting up our ChatBot
 let opts = {
   identity: {
@@ -145,4 +148,4 @@ app.get('/bubbles', (req, res) => {
   res.send(json_messages);
 })
 
-app.listen(PORT, () => console.log('server started on port ${PORT}'));
+app.listen(PORT, () => console.log(`server started on port ${PORT}`));
