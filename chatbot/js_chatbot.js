@@ -59,7 +59,7 @@ async function process_data() {
   console.log(stream_count);
   console.log('-----------------------------'); 
   stream_count += 1;
-  topBubbles = [['__', 1], ['_', 0]];  // will be a list of {word: weight}
+  topBubbles = [['placeholder', 1], ['alsoplaceholder', 0]];  // will be a list of {word: weight}
   maxTopBubbles = 5;
   
   // Step 0: Add all new words from currsec
@@ -114,7 +114,8 @@ async function process_data() {
     currsec = {};  // comment this out when routes work. 
   }
   // Step 3: Call our Render function with our topBubbles (using D3 to live update the chat bubbles)
-  render_bubbles({'room_id': stream_id, 'vals': topBubbles});
+  render_bubbles(topBubbles)
+  // render_bubbles({'room_id': stream_id, 'vals': topBubbles});
 }  // end process_data
 
 
@@ -138,7 +139,7 @@ function onDisconnectedHandler (reason) {
 setInterval(process_data, 1000);4
 
 app.get('/bubbles', (req, res) => {
-  json_messages = JSON.stringify(data)
+  json_messages = JSON.stringify(topBubbles)
   res.setHeader('Content-Type', 'application/json');
   res.send(json_messages);
 })
