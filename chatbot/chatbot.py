@@ -3,6 +3,12 @@
 import sys
 import irc.bot
 import requests
+import pandas as pd
+import math
+import datetime as dt
+import time
+import json
+
 
 
 class TwitchBot(irc.bot.SingleServerIRCBot):
@@ -10,6 +16,7 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         self.client_id = client_id
         self.token = token
         self.channel = '#' + channel
+        self.messages = {}
 
         # Get the channel id, we will need this for v5 API calls
         url = 'https://api.twitch.tv/kraken/users?login=' + channel
@@ -25,6 +32,9 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
         'Connecting to ' + server + ' on port ' + str(port) + '...'
         irc.bot.SingleServerIRCBot.__init__(
             self, [(server, port, 'oauth:' + token)], username, username)
+        
+
+        
 
     def on_welcome(self, c, e):
         print
@@ -39,15 +49,37 @@ class TwitchBot(irc.bot.SingleServerIRCBot):
     def on_pubmsg(self, c, e):
         stop_words = ['ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 'into', 'of', 'most', 'itself', 'other', 'off', 'is', 's', 'am', 'or', 'who', 'as', 'from', 'him', 'each', 'the', 'themselves', 'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 'don', 'nor', 'me', 'were', 'her', 'more', 'himself', 'this', 'down', 'should', 'our', 'their',
                       'while', 'above', 'both', 'up', 'to', 'ours', 'had', 'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 'and', 'been', 'have', 'in', 'will', 'on', 'does', 'yourselves', 'then', 'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not', 'now', 'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 'myself', 'which', 'those', 'i', 'after', 'few', 'whom', 't', 'being', 'if', 'theirs', 'my', 'against', 'a', 'by', 'doing', 'it', 'how', 'further', 'was', 'here', 'than']
+        
+        print(str(e.arguments))
+
         for word in e.arguments:
-            print(word.capitalize().strip(str(stop_words)))
+            word = word.lower()
+            if word not in stop_words:
+                word = word[0].upper() + word[1:]
+                if word not in self.messages:
+                    self.messages[word] = 1
+                else:
+                    self.messages[word] += 1
+        
         # If a chat message starts with an exclamation point, try to run it as a command
-        if e.arguments[0][:1] == '!':
-            cmd = e.arguments[0].split(' ')[0][1:]
-            print
-            'Received command: ' + cmd
-            self.do_command(e, cmd)
-        return
+        # if e.arguments[0][:1] == '!':
+        #     cmd = e.arguments[0].split(' ')[0][1:]
+        #     print
+        #     'Received command: ' + cmd
+        #     self.do_command(e, cmd)
+        # return
+
+    def run_api_loop(self):
+        while True:
+            startTime = time.time()
+            
+            data = self.messages
+            print(data)
+            self.messages = {}
+            # r = requests.post('https://twitchbubblechat.com/api/v1/chat', data={str(content):str(json.dumps(data)), str(session_id):str()})
+            endTime = time.time()-startTime
+            time.sleep(1.0-endTime)
+        
 
     def do_command(self, e, cmd):
         c = self.connection
@@ -95,9 +127,16 @@ def main():
 
     bot = TwitchBot(username, client_id, token, channel)
     bot.start()
+    
+
+
 
 
 if __name__ == "__main__":
     main()
+
+
+
+
 
 
